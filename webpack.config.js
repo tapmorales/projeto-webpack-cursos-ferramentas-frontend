@@ -7,10 +7,20 @@ const PATH = {
 };
 
 module.exports = {
-  entry: "./src/app.js",
+  // entry: "./src/app.js",
+  entry: {
+    hello: "./src/hello.js",
+    index: "./src/index.js"
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: PATH.dist
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+      minSize: 1
+    }
   },
   devServer: {
     contentBase: PATH.dist

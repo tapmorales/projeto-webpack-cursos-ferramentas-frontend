@@ -1,12 +1,12 @@
 import { getMedia, getRamdonNumber } from "belugs";
-import "./sass/style.scss";
 
 let students = null;
 
 const init = _students => {
   students = _students;
   createDomIntoTable(_students);
-  addListenerToButton();
+  // addListenerToButton();
+  showLuckStudents();
 };
 
 const createDomIntoTable = students => {
@@ -36,43 +36,39 @@ const createDomIntoList = luckyStudents => {
   document.querySelector("#results ul").innerHTML = str;
 };
 
-const addListenerToButton = function() {
-  const $btn = document.querySelector("#btn-init");
-  $btn.removeAttribute("disabled");
-  $btn.addEventListener("click", e => {
-    const _students = Array.from(students);
-    let luckyStudents = [];
+const showLuckStudents = function() {
+  const _students = Array.from(students);
+  let luckyStudents = [];
 
-    while (luckyStudents.length < 5) {
-      let nRandon = getRamdonNumber(0, _students.length - 1);
+  while (luckyStudents.length < 5) {
+    let nRandon = getRamdonNumber(0, _students.length - 1);
 
-      let student = _students.splice(nRandon, 1);
-      luckyStudents.push(student[0]);
-    }
+    let student = _students.splice(nRandon, 1);
+    luckyStudents.push(student[0]);
+  }
 
-    let medias = [];
+  let medias = [];
 
-    luckyStudents.map((ls, i) => {
-      medias[i] = ls.media;
-      ls.i = i;
-      return ls;
-    });
-
-    createDomIntoList(luckyStudents);
-
-    const maxValue = Math.max(...medias);
-
-    const studentsWinner = luckyStudents.filter((student, i) => {
-      return student.media === maxValue;
-    });
-
-    if (studentsWinner.length === 1) {
-      showsTheWinner(studentsWinner[0]);
-    } else {
-      let nLucky = getRamdonNumber(0, studentsWinner.length - 1);
-      showsTheWinner(studentsWinner[nLucky]);
-    }
+  luckyStudents.map((ls, i) => {
+    medias[i] = ls.media;
+    ls.i = i;
+    return ls;
   });
+
+  createDomIntoList(luckyStudents);
+
+  const maxValue = Math.max(...medias);
+
+  const studentsWinner = luckyStudents.filter((student, i) => {
+    return student.media === maxValue;
+  });
+
+  if (studentsWinner.length === 1) {
+    showsTheWinner(studentsWinner[0]);
+  } else {
+    let nLucky = getRamdonNumber(0, studentsWinner.length - 1);
+    showsTheWinner(studentsWinner[nLucky]);
+  }
 };
 
 const showsTheWinner = luckyStudent => {
@@ -94,6 +90,11 @@ const getStudents = async () => {
   }
   return data;
 };
-getStudents()
-  .then(students => init(students))
-  .catch(err => console.error(err));
+
+const initPage = function() {
+  getStudents()
+    .then(students => init(students))
+    .catch(err => console.error(err));
+};
+
+export { initPage };
