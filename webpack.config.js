@@ -29,6 +29,24 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/env"],
+            plugins: [
+              [
+                "@babel/plugin-transform-runtime",
+                {
+                  regenerator: true
+                }
+              ]
+            ]
+          }
+        }
+      },
+      {
         test: /\.scss$/i,
         use: [
           { loader: miniCssWebpackPlugin.loader },
