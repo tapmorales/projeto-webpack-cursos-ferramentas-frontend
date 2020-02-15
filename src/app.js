@@ -2,6 +2,8 @@ import { getMedia, getRamdonNumber } from "belugs";
 
 let students = null;
 
+console.log("ola2");
+
 const init = _students => {
   students = _students;
   createDomIntoTable(_students);
